@@ -1,0 +1,13 @@
+- name: Install Docker
+  pacman:
+    name:
+      - docker
+      - docker-compose
+    state: present
+    update_cache: yes
+
+- name: Enable Docker
+  systemd:
+    name: docker
+    enabled: yes
+    state: started

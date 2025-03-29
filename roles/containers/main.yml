@@ -1,0 +1,74 @@
+- name: Create directories for containers
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - /opt/containers/jellyfin
+    - /opt/containers/pihole
+    - /opt/containers/traefik
+    - /opt/containers/filebrowser
+
+- name: Deploy containers with docker-compose
+  copy:
+    dest: "/opt/containers/docker-compose.yml"
+    content: |
+      services:
+        jellyfin:
+          image: linuxserver/jellyfin
+          container_name: jellyfin
+          restart: unless-stopped
+          ports:
+            - "8096:8096"
+          volumes:
+            - /opt/containers/jellyfin:/config
+            - $HOME/tvseries:/data/tvshows
+
+        pihole:
+          image: pihole/pihole
+          container_name: pihole
+          restart: unless-stopped
+          ports:
+            - "53:53/tcp"
+            - "53:53/udp"
+            - "67:67/udp"
+            - "80:80"
+            - "443:443"
+          environment:
+            TZ: "Etc/UTC"
+            WEBPASSWORD: "changeme"
+          volumes:
+            - /opt/containers/pihole/etc-pihole:/etc/pihole
+            - /opt/containers/pihole/etc-dnsmasq.d:/etc/dnsmasq.d
+          capabilities:
+            - NET_ADMIN
+
+        traefik:
+          image: traefik
+          container_name: traefik
+          restart: unless-stopped
+          ports:
+            - "80:80"
+            - "8080:8080"
+          command:
+            - "--api.insecure=true"
+            - "--providers.docker=true"
+            - "--entrypoints.web.address=:80"
+          volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+
+        filebrowser:
+          image: filebrowser/filebrowser
+          container_name: filebrowser
+          restart: unless-stopped
+          ports:
+            - "8081:80"
+          volumes:
+            - /:/srv
+
+- name: Launch containers
+  shell: |
+    docker-compose up -d
+  args:
+    chdir: /opt/containers
+
