@@ -1,0 +1,35 @@
+---
+- name: Create pihole directory
+  file:
+    path: /opt/containers/pihole
+    state: directory
+    mode: "0755"
+
+- name: Deploy pihole container
+  copy:
+    dest: /opt/containers/pihole/pihole-compose.yml
+    content: |
+      services:
+        pihole:
+          image: pihole/pihole
+          container_name: pihole
+          restart: unless-stopped
+          ports:
+            - "53:53/tcp"
+            - "53:53/udp"
+            - "67:67/udp"
+            - "80:80"
+            - "443:443"
+          capabilities:
+            - NET_ADMIN
+          environment:
+            TZ: "Etc/UTC"
+            WEBPASSWORD: "changeme"
+          volumes:
+            - /opt/containers/pihole/etc-pihole:/etc/pihole
+            - /opt/containers/pihole/etc-dnsmasq
+
+- name: Launch pihole
+  shell: docker-compose -f pihole-compose.yml up -d
+  args:
+    chdir: /opt/containers/pihole

@@ -1,0 +1,30 @@
+---
+- name: Create traefik directory
+  file:
+    path: /opt/containers/traefik
+    state: directory
+    mode: "0755"
+
+- name: Deploy traefik container
+  copy:
+    dest: /opt/containers/traefik/traefik-compose.yml
+    content: |
+      services:
+        traefik:
+          image: traefik
+          container_name: traefik
+          restart: unless-stopped
+          ports:
+            - "90:80"
+            - "8090:8080"
+          command:
+            - "--api.insecure=true"
+            - "--providers.docker=true"
+            - "--entrypoints.web.address=:80"
+          volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+
+- name: Launch traefik
+  shell: docker-compose -f traefik-compose.yml up -d
+  args:
+    chdir: /opt/containers/traefik

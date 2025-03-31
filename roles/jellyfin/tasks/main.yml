@@ -1,0 +1,26 @@
+---
+- name: Create jellyfin directory
+  file:
+    path: /opt/containers/jellyfin
+    state: directory
+    mode: "0755"
+
+- name: Deploy jellyfin container
+  copy:
+    dest: /opt/containers/jellyfin/jellyfin-compose.yml
+    content: |
+      services:
+        jellyfin:
+          image: linuxserver/jellyfin
+          container_name: jellyfin
+          restart: unless-stopped
+          ports:
+            - "8096:8096"
+          volumes:
+            - /opt/containers/jellyfin:/config
+            - $HOME/tvseries:/data/tvshows
+
+- name: Launch jellyfin
+  shell: docker-compose -f jellyfin-compose.yml up -d
+  args:
+    chdir: /opt/containers/jellyfin

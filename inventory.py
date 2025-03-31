@@ -11,8 +11,10 @@ inventory = {
         "vars": {
             "ansible_user": ansible_user
         }
+    },
+    "_meta": {
+        "hostvars": {}
     }
 }
 
 print(json.dumps(inventory))
-

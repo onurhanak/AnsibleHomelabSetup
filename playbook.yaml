@@ -1,5 +1,8 @@
 - hosts: homelab
   become: yes
   roles:
-    - docker
-    - containers
+    - { role: docker, tags: docker }
+    - { role: jellyfin, tags: jellyfin }
+    - { role: pihole, tags: pihole }
+    - { role: traefik, tags: traefik }
+    - { role: changedetection, tags: changedetection }
