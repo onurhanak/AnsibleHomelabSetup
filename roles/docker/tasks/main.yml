@@ -1,5 +1,5 @@
 - name: Install Docker
-  pacman:
+  dnf:
     name:
       - docker
       - docker-compose
