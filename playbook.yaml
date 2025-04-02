@@ -6,3 +6,4 @@
     - { role: pihole, tags: pihole }
     - { role: traefik, tags: traefik }
     - { role: changedetection, tags: changedetection }
+    - { role: paperless, tags: paperless }
