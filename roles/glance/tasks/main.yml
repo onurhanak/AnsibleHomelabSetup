@@ -1,0 +1,56 @@
+---
+- name: Create Glance directory
+  file:
+    path: /opt/containers/glance
+    state: directory
+    mode: "0755"
+
+- name: Deploy glance container
+  copy:
+    dest: /opt/containers/glance/glance-compose.yml
+    content: |
+      services:
+        glance:
+          image: glanceapp/glance
+          container_name: glance
+          restart: unless-stopped
+          ports:
+            - "8080:8080"
+          volumes:
+            - ./config:/app/config
+            - ./assets:/app/assets
+
+- name: Create config dir
+  file:
+    path: /opt/containers/glance/config
+    state: directory
+    mode: "0755"
+
+- name: Create assets dir
+  file:
+    path: /opt/containers/glance/assets
+    state: directory
+    mode: "0755"
+
+- name: Copy CSS
+  copy:
+    src: user.css
+    dest: /opt/containers/glance/assets/user.css
+    mode: "0644"
+
+- name: Copy Glance config
+  copy:
+    src: home.yml
+    dest: /opt/containers/glance/config/home.yml
+    mode: "0644"
+
+- name: Copy Glance config
+  copy:
+    src: glance.yml
+    dest: /opt/containers/glance/config/glance.yml
+    mode: "0644"
+
+- name: Launch Glance
+  shell: docker-compose -f glance-compose.yml up -d
+  args:
+    chdir: /opt/containers/glance

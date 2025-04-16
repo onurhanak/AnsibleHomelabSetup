@@ -4,6 +4,6 @@
     - { role: docker, tags: docker }
     - { role: jellyfin, tags: jellyfin }
     - { role: pihole, tags: pihole }
-    - { role: traefik, tags: traefik }
-    - { role: changedetection, tags: changedetection }
-    - { role: paperless, tags: paperless }
+    - { role: glance, tags: glance }
+    - { role: nginx, tags: nginx }
+    - { role: 13ft, tags: 13ft }

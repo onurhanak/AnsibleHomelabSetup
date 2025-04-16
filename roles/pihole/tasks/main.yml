@@ -9,22 +9,22 @@
   copy:
     dest: /opt/containers/pihole/pihole-compose.yml
     content: |
-      pihole:
-        container_name: pihole
-        image: pihole/pihole:latest
-        ports:
-          - "53:53/tcp"
-          - "53:53/udp"
-          - "80:80/tcp"
-          - "443:443/tcp"
-        environment:
-          TZ: 'America/New York'
-          FTLCONF_webserver_api_password: 'change_me'
-        volumes:
-          - './etc-pihole:/etc/pihole'
-        cap_add:
-          - NET_ADMIN
-        restart: unless-stopped
+      services:
+        pihole:
+          container_name: pihole
+          image: pihole/pihole:latest
+          ports:
+            - "53:53/tcp"
+            - "53:53/udp"
+            - "8081:80/tcp"
+            - "443:443/tcp"
+          environment:
+            TZ: 'America/New York'
+          volumes:
+            - './etc-pihole:/etc/pihole'
+          cap_add:
+            - NET_ADMIN
+          restart: unless-stopped
 
 - name: Launch pihole
   shell: docker-compose -f pihole-compose.yml up -d

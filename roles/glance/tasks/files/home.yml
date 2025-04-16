@@ -1,0 +1,52 @@
+- name: Home
+  # Optionally, if you only have a single page you can hide the desktop navigation for a cleaner look
+  # hide-desktop-navigation: true
+  columns:
+    - size: small
+      widgets:
+        - type: calendar
+          first-day-of-week: monday
+
+    - size: full
+      widgets:
+        - type: group
+          widgets:
+            - type: hacker-news
+
+        - type: videos
+          channels:
+            - UCsBjURrPoezykLs9EqgamOA # Fireship
+            - UC_Oa7Ph3v94om5OyxY1nPKg # Paul Davids
+            - UC3mI3dDFrZ5PHFPx1H0TCvQ # Bradley Hall
+            - UCmr_2dlYM0pYHdI9TeF5SIQ # Rudy
+            - UCoxdIEOrloeN00-3KWR4ZnQ # Eric Haugen
+            - UCNvsIonJdJ5E4EXMa65VYpA # Contrapoints
+
+        - type: group
+          widgets:
+            - type: reddit
+              subreddit: linux
+              show-thumbnails: true
+            - type: reddit
+              subreddit: selfhosted
+              show-thumbnails: true
+
+    - size: small
+      widgets:
+        - type: weather
+          location: Pittsburgh, United States
+          units: metric # alternatively "imperial"
+          hour-format: 12h # alternatively "24h"
+          # Optionally hide the location from being displayed in the widget
+          # hide-location: true
+
+        - type: markets
+          markets:
+            - symbol: SPY
+              name: S&P 500
+            - symbol: BTC-USD
+              name: Bitcoin
+            - symbol: GME
+              name: GME
+            - symbol: PHYS
+              name: PHYS
