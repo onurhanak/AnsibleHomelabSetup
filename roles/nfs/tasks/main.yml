@@ -1,0 +1,20 @@
+- name: Install NFS
+  dnf:
+    name:
+      - nfs-utils
+    state: present
+    update_cache: yes
+
+- name: Create /etc/exports
+  ansible.builtin.template:
+    src: templates/exports.j2
+    dest: /etc/exports
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+
+- name: Enable NFS
+  systemd:
+    name: nfs-server
+    enabled: yes
+    state: started

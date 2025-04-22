@@ -13,15 +13,6 @@
           widgets:
             - type: hacker-news
 
-        - type: videos
-          channels:
-            - UCsBjURrPoezykLs9EqgamOA # Fireship
-            - UC_Oa7Ph3v94om5OyxY1nPKg # Paul Davids
-            - UC3mI3dDFrZ5PHFPx1H0TCvQ # Bradley Hall
-            - UCmr_2dlYM0pYHdI9TeF5SIQ # Rudy
-            - UCoxdIEOrloeN00-3KWR4ZnQ # Eric Haugen
-            - UCNvsIonJdJ5E4EXMa65VYpA # Contrapoints
-
         - type: group
           widgets:
             - type: reddit
@@ -29,6 +20,15 @@
               show-thumbnails: true
             - type: reddit
               subreddit: selfhosted
+              show-thumbnails: true
+            - type: reddit
+              subreddit: redhat
+              show-thumbnails: true
+            - type: reddit
+              subreddit: archlinux
+              show-thumbnails: true
+            - type: reddit
+              subreddit: linuxadmin
               show-thumbnails: true
 
     - size: small

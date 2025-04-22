@@ -1,0 +1,7 @@
+- name: Enable NFS
+  ansible.posix.firewalld:
+    service: nfs
+    state: enabled
+    permanent: true
+    immediate: true
+    offline: true

@@ -1,11 +1,15 @@
----
-- name: Create Glance directory
+- name: Ensure glance directories exist
   file:
-    path: /opt/containers/glance
+    path: "{{ item }}"
     state: directory
     mode: "0755"
+  loop:
+    - /opt/containers
+    - /opt/containers/glance
+    - /opt/containers/glance/config
+    - /opt/containers/glance/assets
 
-- name: Deploy glance container
+- name: Deploy Glance docker-compose file
   copy:
     dest: /opt/containers/glance/glance-compose.yml
     content: |
@@ -20,37 +24,22 @@
             - ./config:/app/config
             - ./assets:/app/assets
 
-- name: Create config dir
-  file:
-    path: /opt/containers/glance/config
-    state: directory
-    mode: "0755"
-
-- name: Create assets dir
-  file:
-    path: /opt/containers/glance/assets
-    state: directory
-    mode: "0755"
-
-- name: Copy CSS
+- name: Copy Glance asset files
   copy:
     src: user.css
     dest: /opt/containers/glance/assets/user.css
     mode: "0644"
 
-- name: Copy Glance config
+- name: Copy Glance config files
   copy:
-    src: home.yml
-    dest: /opt/containers/glance/config/home.yml
+    src: "{{ item }}"
+    dest: "/opt/containers/glance/config/{{ item }}"
     mode: "0644"
+  loop:
+    - home.yml
+    - glance.yml
 
-- name: Copy Glance config
-  copy:
-    src: glance.yml
-    dest: /opt/containers/glance/config/glance.yml
-    mode: "0644"
-
-- name: Launch Glance
+- name: Launch Glance container
   shell: docker-compose -f glance-compose.yml up -d
   args:
     chdir: /opt/containers/glance

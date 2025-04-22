@@ -1,0 +1,3 @@
+{% for export in exports %}
+{{ export.path }} {{ export.client }}({{ export.options | join(',') }})
+{% endfor %}
