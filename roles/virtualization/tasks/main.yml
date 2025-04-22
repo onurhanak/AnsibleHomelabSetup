@@ -1,0 +1,21 @@
+- name: Install virt packages
+  dnf:
+    name:
+      - virt-manager
+      - libvirt
+      - qemu-kvm
+      - virt-install
+    state: present
+    update_cache: yes
+
+- name: Enable and start libvirtd
+  systemd:
+    name: libvirtd
+    enabled: yes
+    state: started
+
+- name: Add user to libvirt group
+  user:
+    name: "{{ ansible_user }}"
+    groups: libvirt
+    append: yes

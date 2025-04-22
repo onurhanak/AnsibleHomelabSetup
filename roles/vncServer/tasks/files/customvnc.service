@@ -1,0 +1,15 @@
+[Unit]
+Description=TigerVNC server for %u
+After=graphical.target
+
+[Service]
+Type=forking
+Environment="HOME=%h"
+WorkingDirectory=%h
+ExecStart=/usr/bin/vncserver :1 -geometry 2560x1440
+ExecStop=/usr/bin/vncserver -kill :1
+#PIDFile=%h/.vnc/%H:1.pid
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

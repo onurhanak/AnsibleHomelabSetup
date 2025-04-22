@@ -5,3 +5,11 @@
     permanent: true
     immediate: true
     offline: true
+
+- name: Enable VNC
+  ansible.posix.firewalld:
+    service: vnc
+    state: enabled
+    permanent: true
+    immediate: true
+    offline: true

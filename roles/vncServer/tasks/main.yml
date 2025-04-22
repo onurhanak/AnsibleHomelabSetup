@@ -1,0 +1,52 @@
+- name: Install TigerVNC
+  dnf:
+    name: tigervnc-server
+    state: present
+    update_cache: true
+
+- name: Ensure ~/.vnc directory exists
+  file:
+    path: "{{ ansible_env.HOME }}/.vnc"
+    state: directory
+    mode: "0700"
+
+- name: Set up TigerVNC xstartup
+  copy:
+    dest: "{{ ansible_env.HOME }}/.vnc/xstartup"
+    content: |
+      #!/bin/sh
+      xrdb $HOME/.Xresources
+      dbus-launch --exit-with-session startxfce4 &
+    mode: "0755"
+
+- name: Ensure systemd user unit directory exists
+  file:
+    path: "{{ ansible_env.HOME }}/.config/systemd/user"
+    state: directory
+    mode: "0755"
+
+- name: Copy custom VNC systemd unit
+  copy:
+    src: customvnc.service
+    dest: "{{ ansible_env.HOME }}/.config/systemd/user/customvnc.service"
+    mode: "0644"
+
+- name: Map VNC Users
+  become: true
+  copy:
+    dest: /etc/tigervnc/vncserver.users
+    content: |
+      :1={{ ansible_env.USER }}
+
+- name: Reload systemd user daemon
+  become: false
+  systemd:
+    daemon_reload: yes
+    user: yes
+
+- name: Enable and start VNC service for user
+  systemd:
+    name: customvnc.service
+    enabled: yes
+    state: started
+    user: yes

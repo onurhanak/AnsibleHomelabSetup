@@ -3,3 +3,5 @@
   roles:
     - role: containers
     - role: nfs
+    - role: vnc
+    - role: virtualization
