@@ -1,6 +1,5 @@
 dependencies:
   - role: docker
-  - role: glance
   - role: 13ft
   - role: jellyfin
   - role: pihole
