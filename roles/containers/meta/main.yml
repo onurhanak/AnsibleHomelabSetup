@@ -1,5 +1,0 @@
-dependencies:
-  - role: docker
-  - role: 13ft
-  - role: jellyfin
-  - role: pihole
